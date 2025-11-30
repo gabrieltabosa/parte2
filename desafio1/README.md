@@ -15,22 +15,73 @@ A solução é composta por:
 ### 🔹 Componentes
 
 * **Microsserviço Servidor:** roda Flask e responde na porta `8080`.
-* **Microsserviço Cliente:** envia requisições HTTP para `servidor_web:8080`.
+* **Microsserviço Cliente:** envia requisições HTTP com o metodo GET nativo do protocolo HTTP, para `servidor_web:8080`.
 * **Rede Docker personalizada (`minha_rede`)** para garantir que os containers se enxerguem pelo nome, atraves de um servidor DNS.
 
 ### 🔹 Decisões Técnicas
 
 * Uso de `docker build` para gerar imagens isoladas e reproduzíveis.
-* Nome dos containers fixo (`servidor_web` e `cliente`) para comunicação simples.
+* Nome dos containers fixo (`servidor_web` e `cliente`) para comunicação simples e facil de reproduzir.
 * O cliente só funciona quando a rede Docker existe e o servidor está ativo.
 * Logs são acessados pelo Docker, permitindo depuração fácil.
+* O Servidor manda mensagem serializada no formato JSON pois é a forma mais simples de ler um conteudo
+
+---
+
+### 📚 Bibliotecas Utilizadas
+
+#### 🖥️ **Servidor (Flask)**
+
+O microsserviço servidor utiliza o **Flask**, um microframework Python que facilita a criação de aplicações web minimalistas.
+
+Principais pontos técnicos:
+
+* `Flask` cria o servidor HTTP que escuta na porta `8080`.
+* `from flask import Flask, jsonify`
+
+  * `Flask` inicializa o app,
+  * `jsonify` converte automaticamente dicionários Python em JSON.
+
+Motivo da escolha:
+
+* leve,
+* fácil de configurar,
+* ideal para serviços REST simples dentro de containers.
+
+#### 💻 **Cliente (Requests)**
+
+O cliente usa a biblioteca **Requests**, considerada o padrão de mercado para requisições HTTP em Python.
+
+Pontos técnicos:
+
+* `import requests`
+* Constrói uma requisição GET para o servidor:
+
+  ```python
+  response = requests.get("http://servidor_web:8080")
+  ```
+* Converte o JSON recebido:
+
+  ```python
+  dados = response.json()
+  ```
+
+Motivo da escolha:
+
+* API simples,
+* robusta,
+* excelente tratamento de erros,
+* integração natural com JSON.
+
+---
+
 
 ### 🔹 Fluxo de Funcionamento
 
 1. O servidor Flask inicia e fica ouvindo na porta 8080.
 2. O container do cliente sobe e tenta acessar a URL `http://servidor_web:8080`.
 3. A rede Docker resolve o hostname para o container do servidor.
-4. O cliente recebe a resposta que esta no formato JSON e exibe no console.
+4. O cliente recebe a resposta e exibe no console.
 5. Os logs podem ser acompanhados usando `docker logs`.
 
 ---
@@ -51,12 +102,7 @@ Invoca o mecanismo de orquestração do Docker para subir múltiplos serviços a
 📂 **-f 'desafio1/docker-compose.yml'**  
 Especifica qual arquivo `docker-compose.yml` deve ser usado.
 
-Isso é útil quando você está na raiz do projeto, mas o compose do Desafio 1 está em um subdiretório:
-
-/fccp/parte2/desafio1/docker-compose.yml
-
-Assim, você pode rodar tudo a partir de:
-
+Isso é útil para que você acesse o `docker-compose.yml`.
 
 Sem precisar entrar na pasta `desafio1/`.
 
@@ -107,41 +153,12 @@ Esse comando:
 
 
 
-### 2️⃣ Construir a imagem do servidor
-
-```bash
-docker compose -f 'desafio1/docker-compose.yml' up -d --build 
-```
-
----
-
-### 3️⃣ Executar o servidor Flask
-
-```bash
-docker run -d --name servidor_web --network minha_rede -p 8080:8080 servidor
-```
+### 2️⃣ Para ver as saidas dos programas
 
 📌 Para ver os logs do servidor:
 
 ```bash
 docker logs -f servidor_web
-```
-
----
-
-### 4️⃣ Construir a imagem do cliente
-
-```bash
-cd ../cliente
-docker build -t cliente .
-```
-
----
-
-### 5️⃣ Executar o cliente
-
-```bash
-docker run -d --name cliente --network minha_rede cliente
 ```
 
 📌 Para ver os logs do cliente:
