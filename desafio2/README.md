@@ -1,6 +1,5 @@
-Perfeito! Aqui está um **README completo em Markdown** para o **Desafio 2 — Volumes e Persistência**, formatado de forma detalhada, considerando que a avaliação vai se basear em **descrição da solução, arquitetura, decisões técnicas, explicação de funcionamento e passo a passo**:
 
-```markdown
+
 # 🐳 Desafio 2 — Volumes e Persistência (Docker)
 
 ## 📘 Descrição Geral da Solução
@@ -19,14 +18,6 @@ A solução consiste em:
 ## 🧱 Arquitetura e Decisões Técnicas
 
 ### 🔹 Arquitetura
-
-```
-
-[Container Cliente opcional] ---> [Rede Docker] ---> [Container PostgreSQL (desafio2_db)]
-|
----> Volume Docker (desafio2_pgdata)
-
-````
 
 - **Container PostgreSQL (`desafio2_db`)**: responsável por armazenar os dados e responder às consultas.  
 - **Volume Docker (`desafio2_pgdata`)**: garante que os dados não sejam perdidos mesmo se o container for removido.  
@@ -49,7 +40,6 @@ A solução consiste em:
 2. Durante a primeira execução, o PostgreSQL executa o script `init.sql` presente na pasta `./desafio2/`, criando a tabela `usuarios` e inserindo registros iniciais.  
 3. Todos os dados do banco são armazenados no volume externo (`desafio2_pgdata`).  
 4. O container pode ser removido ou recriado sem perda de dados, pois o volume mantém o conteúdo persistente.  
-5. É possível adicionar um segundo container (por exemplo, um cliente Python) que se conecta ao PostgreSQL via rede Docker e consulta os dados.  
 
 ---
 
@@ -101,57 +91,24 @@ docker compose down
 docker compose up -d
 ```
 
-3. Acesse o banco e veja que os dados ainda existem:
+3. Repita o comando do passo 2 e vera o banco com os dados salvos:
 
 ```bash
-docker exec -it desafio2_db psql -U admin -d desafio -c "SELECT * FROM usuarios;"
+docker exec -it desafio2_db psql -U admin -d desafio
 ```
 
-Você deverá ver os registros originais, provando que o volume preservou os dados.
+Dentro do console `psql`:
 
----
+* Listar tabelas:
 
-## 🧪 Testes e Verificações
-
-* Listar containers ativos:
-
-```bash
-docker ps
+```
+\dt
 ```
 
-* Listar volumes existentes:
+* Consultar dados da tabela `usuarios`:
 
-```bash
-docker volume ls
+```sql
+SELECT * FROM usuarios;
 ```
-
-* Inspecionar volume `desafio2_pgdata`:
-
-```bash
-docker volume inspect desafio2_pgdata
-```
-
-* Consultar dados diretamente no container:
-
-```bash
-docker exec -it desafio2_db psql -U admin -d desafio -c "SELECT * FROM usuarios;"
-```
-
----
-
-## 🔧 Troubleshooting Comum
-
-* **Volume em uso**: verifique containers ativos e remova se necessário:
-
-```bash
-docker ps -a
-docker rm -f <container_name>
-```
-
-* **Tabela não existe**: garanta que o script `init.sql` esteja na pasta correta (`./desafio2/`) e que o volume esteja sendo criado na primeira execução.
-* **Porta em uso**: ajuste a porta no `docker-compose.yml` se necessário.
-
-
-
 
 
