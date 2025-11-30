@@ -5,8 +5,8 @@ services:
     image: postgres:15
     container_name: desafio2_db
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
+      POSTGRES_USER: gabriel
+      POSTGRES_PASSWORD: 123
       POSTGRES_DB: desafio
     volumes:
       - desafio2_pgdata:/var/lib/postgresql/data

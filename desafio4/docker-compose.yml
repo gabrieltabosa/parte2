@@ -1,0 +1,25 @@
+services:
+  service_a:
+    build: ./service_a
+    container_name: desafio4_service_a
+    ports:
+      - "5001:5001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+
+  service_b:
+    build: ./service_b
+    container_name: desafio4_service_b
+    ports:
+      - "5002:5002"
+    depends_on:
+      service_a:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5002/health"]
+      interval: 5s
+      timeout: 2s
+      retries: 5
