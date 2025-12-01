@@ -1,4 +1,4 @@
-# 🚀 **Desafio 5 — Arquitetura de Microsserviços com API Gateway**
+# **Desafio 5 — Arquitetura de Microsserviços com API Gateway**
 
 Este projeto implementa **três serviços Dockerizados**:
 
@@ -10,7 +10,7 @@ A arquitetura segue padrões modernos utilizados em sistemas distribuídos na nu
 
 ---
 
-# 🏗️ **Arquitetura**
+# **Arquitetura**
 
 ```
         ┌────────────────┐
@@ -39,31 +39,7 @@ A arquitetura segue padrões modernos utilizados em sistemas distribuídos na nu
 
 ---
 
-# 🧠 **Decisões Técnicas**
-
-### ✔ API Gateway como único ponto de entrada
-
-Centraliza controle, segurança e roteamento.
-
-### ✔ Comunicação interna via HTTP
-
-Prática comum em arquiteturas baseadas em microsserviços.
-
-### ✔ Variáveis de ambiente no Gateway
-
-Evita dependência de URLs fixas no código.
-
-### ✔ Healthchecks no docker-compose
-
-O gateway **só sobe quando os serviços estiverem funcionando**.
-
-### ✔ Isolamento via rede bridge
-
-Os serviços se comunicam apenas dentro da rede interna do Docker.
-
----
-
-# ▶️ **Como Executar**
+# **Como Executar**
 
 ```
 docker compose -f 'desafio5/docker-compose.yml' up -d --build 
@@ -77,9 +53,9 @@ docker ps
 
 ---
 
-# 🔍 **Testes**
+# 🧪 **Testes**
 
-### ✔ Listar usuários
+### Listar usuários
 
 ```
 http://localhost:5000/users
@@ -95,7 +71,7 @@ Saída esperada:
 ]
 ```
 
-### ✔ Listar pedidos
+### Listar pedidos
 
 ```
 http://localhost:5000/orders
