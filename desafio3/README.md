@@ -1,9 +1,3 @@
-Aqui está um **README.md completo, organizado e pronto para entrega**, seguindo os critérios do professor: arquitetura, explicação, decisões técnicas e instruções passo a passo.
-
-Se quiser, posso exportar como arquivo depois.
-
----
-
 # 📘 **Desafio 3 — Orquestração com Docker Compose**
 
 Este projeto implementa uma arquitetura de microsserviços composta por três serviços principais:
@@ -16,7 +10,7 @@ Todos são orquestrados via **Docker Compose**, utilizando redes internas, vari�
 
 ---
 
-# 📌 **📁 Estrutura do Projeto**
+# **📁 Estrutura do Projeto**
 
 ```
 desafio3-docker/
@@ -36,7 +30,7 @@ desafio3-docker/
 
 ---
 
-# 🎯 **Objetivo do Projeto**
+# **Objetivo do Projeto**
 
 Demonstrar o uso do **Docker Compose** para orquestrar vários serviços dependentes, garantindo:
 
@@ -47,13 +41,13 @@ Demonstrar o uso do **Docker Compose** para orquestrar vários serviços depende
 
 ---
 
-# 🏗️ **Arquitetura da Solução**
+# **Arquitetura da Solução**
 
 A aplicação é composta por:
 
 ---
 
-## 🛠️ **1. Serviço Web (Flask + Python)**
+## **1. Serviço Web (Flask + Python)**
 
 Localizado na pasta `web/`.
 
@@ -72,7 +66,7 @@ Localizado na pasta `web/`.
 
 ---
 
-## 🗄️ **2. Banco de Dados (PostgreSQL)**
+##  **2. Banco de Dados (PostgreSQL)**
 
 Localizado em `db/`.
 
@@ -91,7 +85,7 @@ Localizado em `db/`.
 
 ---
 
-## ⚡ **3. Cache (Redis)**
+## **3. Cache (Redis)**
 
 * Usa imagem oficial `redis:7`
 * Testa comunicação através de um simples `set`/`get`
@@ -99,7 +93,7 @@ Localizado em `db/`.
 
 ---
 
-# 🔗 **Rede Interna**
+# **Rede Interna**
 
 O Docker Compose cria automaticamente a rede `backend`, onde:
 
@@ -118,20 +112,22 @@ port=5432
 
 ---
 
-# 🔧 **Decisões Técnicas**
+# **Decisões Técnicas**
 
-### ✅ **1. Separação das tecnologias em pastas diferentes**
+### **1. Separação das tecnologias em pastas diferentes**
 
 **O que é:** Cada serviço (web, banco de dados, cache) tem sua própria pasta com seus arquivos.
+
 **Propósito:**
 Isso deixa tudo organizado. Assim, quem abrir o projeto consegue entender rapidamente “onde fica o quê”, sem misturar código Python com arquivos do banco ou configurações do Redis.
 É como separar gavetas diferentes para roupas, documentos e ferramentas — tudo fica mais fácil de achar e manter.
 
 ---
 
-### ✅ **2. Banco criado e preenchido automaticamente por um script SQL**
+### **2. Banco criado e preenchido automaticamente por um script SQL**
 
 **O que é:** O container do banco roda automaticamente um arquivo `init.sql` que cria tabelas e insere ações como Vale, Klabin e Banco do Brasil.
+
 **Propósito:**
 O projeto funciona do zero, sem você precisar criar nada manualmente.
 Isso garante que:
@@ -142,9 +138,10 @@ Isso garante que:
 
 ---
 
-### ✅ **3. Variáveis de ambiente configuradas no docker-compose**
+### **3. Variáveis de ambiente configuradas no docker-compose**
 
 **O que é:** Usuário, senha e nomes do banco são passados por variáveis.
+
 **Propósito:**
 Assim, você pode mudar credenciais e configurações **sem editar código**, apenas alterando o compose.
 Isso melhora:
@@ -155,18 +152,20 @@ Isso melhora:
 
 ---
 
-### ✅ **4. Uso do `depends_on` para iniciar os serviços na ordem correta**
+### **4. Uso do `depends_on` para iniciar os serviços na ordem correta**
 
 **O que é:** Informa ao Docker que o serviço web só deve iniciar depois do banco e do Redis.
+
 **Propósito:**
 Evita que o web tente conectar no banco **antes dele existir**, o que causaria erros.
 É como garantir que a tomada está ligada **antes** de ligar o notebook.
 
 ---
 
-### ✅ **5. Rede interna do tipo *bridge* para comunicação entre containers**
+### **5. Rede interna do tipo *bridge* para comunicação entre containers**
 
 **O que é:** Os containers conversam entre si por uma rede interna criada pelo Compose.
+
 **Propósito:**
 Mantém a comunicação dos serviços:
 
@@ -178,9 +177,10 @@ Mantém a comunicação dos serviços:
 
 ---
 
-### ✅ **6. Volumes persistentes para o banco**
+### **6. Volumes persistentes para o banco**
 
 **O que é:** Uma área do disco fica reservada para armazenar os dados do banco.
+
 **Propósito:**
 Sem volumes, toda vez que o container fosse reiniciado, o banco voltaria zerado.
 Com o volume:
@@ -206,16 +206,9 @@ Essas decisões criam uma arquitetura:
 
 ---
 
-# ▶️ **Como Executar o Projeto**
+# **Como Executar o Projeto**
 
-### **1️⃣ Pré-requisitos**
-
-* Docker instalado
-* Docker Compose instalado
-
----
-
-## **2️⃣ Subir os containers**
+## **1 Subir os containers**
 
 Na raiz do projeto:
 
@@ -231,7 +224,7 @@ Os serviços serão inicializados na ordem:
 
 ---
 
-## **3️⃣ Acessar a aplicação**
+## **2 Acessar a aplicação**
 
 Abra no navegador:
 
@@ -271,7 +264,7 @@ Isso significa que `SET` e `GET` funcionaram.
 
 ---
 
-# 🧹 **Parar e Remover Containers**
+# **Parar e Remover Containers**
 
 Para parar:
 
@@ -284,14 +277,3 @@ Para parar **e remover volume do banco**:
 ```bash
 docker-compose down -v
 ```
-
----
-
-# 📚 **Conclusão**
-
-Este projeto demonstra uma arquitetura moderna usando Docker Compose com:
-
-✔ separação clara dos serviços
-✔ comunicação interna funcional
-✔ banco inicializado automaticamente
-✔ boas práticas de containerização
