@@ -1,21 +1,21 @@
-# 🧩 **Desafio 4 — Microsserviços Independentes**
+# **Desafio 4 — Microsserviços Independentes**
 
 Este projeto implementa **dois microsserviços totalmente independentes**, que se comunicam entre si via **HTTP**, utilizando Docker e uma arquitetura simples, porém profissional.
 
 ---
 
-# 📌 **Descrição Geral**
+# **Descrição Geral**
 
 O objetivo do desafio é criar:
 
 * **Microsserviço A** → fornece uma lista de usuários em formato JSON.
 * **Microsserviço B** → consome o serviço A e exibe os dados combinados (por exemplo: cálculo de quanto tempo o usuário está ativo).
-* Comunicação entre serviços feita via **HTTP interno** (sem API Gateway).
+* Comunicação entre serviços feita via **HTTP interno**.
 * Cada microsserviço possui **seu próprio Dockerfile**, garantindo isolamento total.
 
 ---
 
-# 🏗️ **Arquitetura do Projeto**
+# **Arquitetura do Projeto**
 
 A arquitetura segue o princípio de microsserviços independentes:
 
@@ -52,7 +52,7 @@ GET /health
 
 ---
 
-# 🔧 **Decisões Técnicas**
+# **Decisões Técnicas**
 
 ### 🔹 Microsserviços totalmente separados
 
@@ -135,9 +135,9 @@ desafio4/
 
 ---
 
-# ▶️ **Como Executar o Projeto**
+# **Como Executar o Projeto**
 
-### 1️⃣ Subir todos os serviços
+### 1️ Subir todos os serviços
 
 ```
 docker compose -f 'desafio4/docker-compose.yml' up -d --build 
@@ -154,7 +154,7 @@ O Compose irá:
 
 # 🧪 **Como Testar**
 
-### 📌 Verificar se os serviços estão rodando:
+### Verificar se os serviços estão rodando:
 
 ```
 docker ps
@@ -162,7 +162,7 @@ docker ps
 
 ---
 
-## 🚀 **Testar Service A**
+## **Testar Service A**
 
 ### Lista de usuários:
 
@@ -178,7 +178,7 @@ http://localhost:5001/health
 
 ---
 
-## 🚀 **Testar Service B**
+## **Testar Service B**
 
 ### JSON com descrição formatada:
 
@@ -192,7 +192,7 @@ http://localhost:5002/health
 ```
 ---
 
-# 🧹 **Como Parar Tudo**
+# **Como Parar Tudo**
 
 ```
 docker compose down
